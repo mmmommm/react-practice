@@ -6,6 +6,7 @@ type SquareType = string | null;
 
 interface BoardState {
   squares: SquareType[];
+  xIsNext: boolean
 }
 
 interface SquareProps {
@@ -26,12 +27,16 @@ class Board extends React.Component<any, BoardState> {
     super(props);
     this.state = {
       squares: Array<SquareType>(9).fill(null),
+      xIsNext: true,
     };
   }
   handleClick(i: number) {
     const squares = this.state.squares.slice();
-    squares[i] = 'X'
-    this.setState({squares: squares})
+    squares[i] = this.state.xIsNext ? 'X' : '0';
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext
+    })
   }
   renderSquare(i: number) {
     return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
